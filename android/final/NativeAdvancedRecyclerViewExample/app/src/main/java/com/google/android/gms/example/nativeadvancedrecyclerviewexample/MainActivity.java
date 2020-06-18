@@ -155,20 +155,28 @@ private void loadNativeAds() {
             String jsonDataString = readJsonDataFromFile();
             JSONArray menuItemsJsonArray = new JSONArray(jsonDataString);
 
-            for (int i = 0; i < menuItemsJsonArray.length(); ++i) {
+            while (true) {
 
-                JSONObject menuItemObject = menuItemsJsonArray.getJSONObject(i);
+                if (mRecyclerViewItems.size() > 1500) {
+                    break;
+                }
 
-                String menuItemName = menuItemObject.getString("name");
-                String menuItemDescription = menuItemObject.getString("description");
-                String menuItemPrice = menuItemObject.getString("price");
-                String menuItemCategory = menuItemObject.getString("category");
-                String menuItemImageName = menuItemObject.getString("photo");
+                for (int i = 0; i < menuItemsJsonArray.length(); ++i) {
 
-                MenuItem menuItem = new MenuItem(menuItemName, menuItemDescription, menuItemPrice,
-                        menuItemCategory, menuItemImageName);
-                mRecyclerViewItems.add(menuItem);
+                    JSONObject menuItemObject = menuItemsJsonArray.getJSONObject(i);
+
+                    String menuItemName = menuItemObject.getString("name");
+                    String menuItemDescription = menuItemObject.getString("description");
+                    String menuItemPrice = menuItemObject.getString("price");
+                    String menuItemCategory = menuItemObject.getString("category");
+                    String menuItemImageName = menuItemObject.getString("photo");
+
+                    MenuItem menuItem = new MenuItem(menuItemName, menuItemDescription, menuItemPrice,
+                            menuItemCategory, menuItemImageName);
+                    mRecyclerViewItems.add(menuItem);
+                }
             }
+
         } catch (IOException | JSONException exception) {
             Log.e(MainActivity.class.getName(), "Unable to parse JSON file.", exception);
         }
