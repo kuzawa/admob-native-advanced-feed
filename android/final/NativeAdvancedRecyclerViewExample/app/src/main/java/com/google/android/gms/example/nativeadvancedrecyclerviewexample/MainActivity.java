@@ -92,12 +92,17 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        int offset = (mRecyclerViewItems.size() / mNativeAds.size()) + 1;
-        int index = 0;
-        for (UnifiedNativeAd ad : mNativeAds) {
+        int adInterval = 10;
+        int nativeAdsSize = mNativeAds.size();
+        int index = mRecyclerViewItems.size() - 1;
+        int adIndex = 0;
+        do {
+            UnifiedNativeAd ad = mNativeAds.get(adIndex % nativeAdsSize);
+            adIndex++;
             mRecyclerViewItems.add(index, ad);
-            index = index + offset;
-        }
+            index -= adInterval;
+
+        } while (index >= 0);
         loadMenu();
     }
 
